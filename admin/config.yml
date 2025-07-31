@@ -1,0 +1,20 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "assets/uploads"
+public_folder: "/assets/uploads"
+
+collections:
+  - name: "profile"
+    label: "Profile Info"
+    files:
+      - file: "data/profile.json"
+        label: "Profile"
+        name: "profile"
+        fields:
+          - { label: "Name", name: "name", widget: "string" }
+          - { label: "Bio", name: "bio", widget: "text" }
+          - { label: "Music URL", name: "music", widget: "string" }
+          - { label: "Discord Link", name: "discord", widget: "string" }
+          - { label: "GitHub Link", name: "github", widget: "string" }
