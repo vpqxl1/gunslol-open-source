@@ -36,7 +36,7 @@ body {
 }
 
 
-body.home-theme {
+body.home- {
   --primary-gradient: from-purple-400;
   --secondary-gradient: to-pink-600;
   --primary-color: #00CED1; 
@@ -107,6 +107,34 @@ body.car-theme {
 }
 
 
+/* Theme Classes */
+.theme-anime {
+    --primary-color: #ff6b9d;
+    --secondary-color: #ffc3e1;
+}
+
+.theme-hacker {
+    --primary-color: #00ff00;
+    --secondary-color: #001100;
+    background-color: #000011;
+    color: #00ff00;
+}
+
+.theme-car {
+    --primary-color: #ff4444;
+    --secondary-color: #330000;
+}
+
+.theme-rain {
+    --primary-color: #4a90e2;
+    --secondary-color: #1a3a5c;
+}
+
+/* Use the CSS variables in your existing styles */
+.text-primary {
+    color: var(--primary-color, #ffffff);
+}
+
 #profile-block, #skills-block {
   transform-style: preserve-3d;
   transition: transform 0.5s ease-out, background 0.3s ease, border-opacity 0.3s ease, backdrop-filter 0.3s ease, opacity 0.3s ease, border-color 0.3s ease; /* Flüssigere Transition */
@@ -131,7 +159,7 @@ body.car-theme {
 }
 
 
-.border-theme {
+.border- {
   border-color: var(--primary-color);
 }
 
@@ -264,7 +292,7 @@ body.car-theme {
 }
 
 
-#home-theme, #hacker-theme, #rain-theme, #anime-theme, #car-theme, #results-theme {
+#home-, #hacker-, #rain-, #anime-, #car-, #results- {
   background-image: linear-gradient(to bottom right, var(--primary-color), var(--secondary-color));
   touch-action: manipulation;
 }
@@ -387,7 +415,7 @@ body.car-theme {
   backdrop-filter: blur(5px);
 }
 
-.theme-button {
+.-button {
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -402,7 +430,7 @@ body.car-theme {
   font-weight: bold;
 }
 
-.theme-button:hover {
+.-button:hover {
   transform: scale(1.1);
   border-color: rgba(255, 255, 255, 0.8);
 }
@@ -594,7 +622,7 @@ body.car-theme {
     transform: translateX(-50%);
   }
 
-  .theme-button {
+  .-button {
     width: 25px;
     height: 25px;
     font-size: 12px;
@@ -625,7 +653,7 @@ body.car-theme {
     transform: translateX(-50%);
   }
 
-  #results-theme {
+  #results- {
     font-size: 10px;
     padding: 6px 10px;
   }
