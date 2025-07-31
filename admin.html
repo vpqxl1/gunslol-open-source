@@ -3,683 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gunslol Admin Panel - Netlify</title>
+    <title>Admin Access</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: Arial, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
         }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .header {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 30px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .header h1 {
-            color: white;
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-
-        .header p {
-            color: rgba(255, 255, 255, 0.8);
-        }
-
-        .dashboard {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-
-        .card {
+        
+        .login-container {
             background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
             border-radius: 15px;
-            padding: 25px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: transform 0.3s ease;
+            text-align: center;
+            min-width: 300px;
         }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card h3 {
+        
+        .login-container h1 {
             color: #4f46e5;
-            margin-bottom: 15px;
-            font-size: 1.3rem;
+            margin-bottom: 30px;
         }
-
-        .btn {
-            background: linear-gradient(135deg, #4f46e5, #7c3aed);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            margin: 5px;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(79, 70, 229, 0.3);
-        }
-
-        .btn-danger {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-        }
-
-        .btn-success {
-            background: linear-gradient(135deg, #10b981, #059669);
-        }
-
-        .input-group {
-            margin-bottom: 15px;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #374151;
-        }
-
-        .input-group input,
-        .input-group select,
-        .input-group textarea {
+        
+        .login-form input {
             width: 100%;
-            padding: 10px;
+            padding: 15px;
+            margin: 10px 0;
             border: 2px solid #e5e7eb;
             border-radius: 8px;
-            font-size: 14px;
-            transition: border-color 0.3s ease;
+            font-size: 16px;
+            box-sizing: border-box;
         }
-
-        .input-group input:focus,
-        .input-group select:focus,
-        .input-group textarea:focus {
+        
+        .login-form input:focus {
             outline: none;
             border-color: #4f46e5;
         }
-
-        .file-upload {
-            border: 2px dashed #4f46e5;
+        
+        .login-btn {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            border: none;
+            padding: 15px 30px;
             border-radius: 8px;
-            padding: 20px;
-            text-align: center;
             cursor: pointer;
-            transition: all 0.3s ease;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 10px;
+            transition: transform 0.3s ease;
         }
-
-        .file-upload:hover {
-            background: rgba(79, 70, 229, 0.05);
+        
+        .login-btn:hover {
+            transform: translateY(-2px);
         }
-
-        .status {
-            padding: 10px;
-            border-radius: 8px;
-            margin: 10px 0;
+        
+        .error {
+            color: #ef4444;
+            margin-top: 15px;
             font-weight: bold;
         }
-
-        .status.success {
-            background: #d1fae5;
-            color: #065f46;
-            border: 1px solid #10b981;
-        }
-
-        .status.error {
-            background: #fee2e2;
-            color: #991b1b;
-            border: 1px solid #ef4444;
-        }
-
-        .status.warning {
-            background: #fef3c7;
-            color: #92400e;
-            border: 1px solid #f59e0b;
-        }
-
-        .asset-list {
-            max-height: 200px;
-            overflow-y: auto;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 10px;
-            background: #f9fafb;
-        }
-
-        .asset-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 5px 0;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .asset-item:last-child {
-            border-bottom: none;
-        }
-
-        .logs {
-            background: #1f2937;
-            color: #f3f4f6;
-            padding: 15px;
-            border-radius: 8px;
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-
-        .tabs {
-            display: flex;
-            margin-bottom: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-            padding: 5px;
-        }
-
-        .tab {
-            flex: 1;
-            padding: 10px;
-            text-align: center;
-            cursor: pointer;
-            border-radius: 5px;
-            color: white;
-            transition: all 0.3s ease;
-        }
-
-        .tab.active {
-            background: rgba(255, 255, 255, 0.2);
-        }
-
-        .tab-content {
+        
+        .admin-content {
             display: none;
-        }
-
-        .tab-content.active {
-            display: block;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🎯 Gunslol Admin Panel</h1>
-            <p>Manage your Netlify-hosted gunslol site with ease</p>
+    <!-- Login Form -->
+    <div id="loginForm" class="login-container">
+        <h1>🔒 Admin Access</h1>
+        <div class="login-form">
+            <input type="password" id="passwordInput" placeholder="Enter admin password" autocomplete="current-password">
+            <button class="login-btn" onclick="checkPassword()">Access Admin Panel</button>
+            <div id="errorMessage" class="error"></div>
         </div>
+    </div>
 
-        <div class="tabs">
-            <div class="tab active" onclick="switchTab('overview')">Overview</div>
-            <div class="tab" onclick="switchTab('assets')">Assets</div>
-            <div class="tab" onclick="switchTab('customization')">Customize</div>
-            <div class="tab" onclick="switchTab('deployment')">Deploy</div>
-            <div class="tab" onclick="switchTab('analytics')">Analytics</div>
-        </div>
-
-        <!-- Overview Tab -->
-        <div id="overview" class="tab-content active">
-            <div class="dashboard">
-                <div class="card">
-                    <h3>🌐 Site Status</h3>
-                    <div id="siteStatus" class="status warning">
-                        ⚠️ Site status: Checking...
-                    </div>
-                    <p><strong>Domain:</strong> <span id="siteDomain">your-site.netlify.app</span></p>
-                    <p><strong>Last Deploy:</strong> <span id="lastDeploy">Loading...</span></p>
-                    <div style="margin-top: 15px;">
-                        <a href="#" class="btn" id="visitSiteBtn" target="_blank">Visit Site</a>
-                        <button class="btn btn-success" onclick="checkSiteStatus()">Refresh Status</button>
-                    </div>
+    <!-- Admin Content (Hidden until password is correct) -->
+    <div id="adminContent" class="admin-content">
+        <!-- INSERT YOUR ADMIN PANEL HTML HERE -->
+        <div style="background: white; min-height: 100vh; padding: 20px;">
+            <div style="max-width: 1200px; margin: 0 auto;">
+                <div style="background: linear-gradient(135deg, #4f46e5, #7c3aed); color: white; padding: 20px; border-radius: 15px; text-align: center; margin-bottom: 30px;">
+                    <h1>🎯 Gunslol Admin Panel</h1>
+                    <p>Welcome to your admin dashboard!</p>
+                    <button onclick="logout()" style="background: rgba(255,255,255,0.2); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px;">Logout</button>
                 </div>
-
-                <div class="card">
-                    <h3>📊 Quick Stats</h3>
-                    <p><strong>Total Assets:</strong> <span id="assetCount">0</span></p>
-                    <p><strong>Site Size:</strong> <span id="siteSize">Calculating...</span></p>
-                    <p><strong>Page Load Speed:</strong> <span id="loadSpeed">Testing...</span></p>
-                    <button class="btn" onclick="runSpeedTest()">Run Speed Test</button>
-                </div>
-
-                <div class="card">
-                    <h3>🚀 Quick Actions</h3>
-                    <button class="btn" onclick="switchTab('assets')">Upload Assets</button>
-                    <button class="btn" onclick="switchTab('customization')">Customize Site</button>
-                    <button class="btn btn-success" onclick="triggerDeploy()">Deploy Now</button>
-                    <button class="btn btn-danger" onclick="clearCache()">Clear Cache</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Assets Tab -->
-        <div id="assets" class="tab-content">
-            <div class="dashboard">
-                <div class="card">
-                    <h3>🎵 Music Files</h3>
-                    <div class="file-upload" onclick="document.getElementById('musicFiles').click()">
-                        <p>📁 Click to upload music files</p>
-                        <small>Supported: MP3 files</small>
+                
+                <!-- Your existing admin panel content goes here -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                    <div style="background: #f9fafb; padding: 20px; border-radius: 10px; border: 1px solid #e5e7eb;">
+                        <h3 style="color: #4f46e5;">🌐 Site Management</h3>
+                        <p>Manage your gunslol site settings and configuration.</p>
+                        <button style="background: #4f46e5; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Manage Site</button>
                     </div>
-                    <input type="file" id="musicFiles" multiple accept=".mp3" style="display: none;" onchange="handleFileUpload('music', this.files)">
-                    <div id="musicList" class="asset-list"></div>
-                </div>
-
-                <div class="card">
-                    <h3>🎬 Video Backgrounds</h3>
-                    <div class="file-upload" onclick="document.getElementById('videoFiles').click()">
-                        <p>📁 Click to upload video files</p>
-                        <small>Supported: MP4, MOV files</small>
+                    
+                    <div style="background: #f9fafb; padding: 20px; border-radius: 10px; border: 1px solid #e5e7eb;">
+                        <h3 style="color: #4f46e5;">📁 File Upload</h3>
+                        <p>Upload new assets like music, videos, and images.</p>
+                        <button style="background: #10b981; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Upload Files</button>
                     </div>
-                    <input type="file" id="videoFiles" multiple accept=".mp4,.mov" style="display: none;" onchange="handleFileUpload('video', this.files)">
-                    <div id="videoList" class="asset-list"></div>
-                </div>
-
-                <div class="card">
-                    <h3>🖼️ Images & GIFs</h3>
-                    <div class="file-upload" onclick="document.getElementById('imageFiles').click()">
-                        <p>📁 Click to upload images</p>
-                        <small>Supported: PNG, GIF, JPG files</small>
+                    
+                    <div style="background: #f9fafb; padding: 20px; border-radius: 10px; border: 1px solid #e5e7eb;">
+                        <h3 style="color: #4f46e5;">🚀 Deploy</h3>
+                        <p>Deploy your changes to the live site.</p>
+                        <button style="background: #ef4444; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Deploy Now</button>
                     </div>
-                    <input type="file" id="imageFiles" multiple accept=".png,.gif,.jpg,.jpeg" style="display: none;" onchange="handleFileUpload('image', this.files)">
-                    <div id="imageList" class="asset-list"></div>
-                </div>
-
-                <div class="card">
-                    <h3>🔤 Fonts</h3>
-                    <div class="file-upload" onclick="document.getElementById('fontFiles').click()">
-                        <p>📁 Click to upload font files</p>
-                        <small>Supported: TTF, OTF, WOFF files</small>
-                    </div>
-                    <input type="file" id="fontFiles" multiple accept=".ttf,.otf,.woff,.woff2" style="display: none;" onchange="handleFileUpload('font', this.files)">
-                    <div id="fontList" class="asset-list"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Customization Tab -->
-        <div id="customization" class="tab-content">
-            <div class="dashboard">
-                <div class="card">
-                    <h3>🎨 Site Appearance</h3>
-                    <div class="input-group">
-                        <label for="siteTitle">Site Title</label>
-                        <input type="text" id="siteTitle" placeholder="Your Name" value="Gunslol Site">
-                    </div>
-                    <div class="input-group">
-                        <label for="siteDescription">Description</label>
-                        <textarea id="siteDescription" rows="3" placeholder="Describe yourself...">Welcome to my personal site</textarea>
-                    </div>
-                    <div class="input-group">
-                        <label for="primaryColor">Primary Color</label>
-                        <input type="color" id="primaryColor" value="#4f46e5">
-                    </div>
-                    <button class="btn" onclick="saveCustomization()">Save Changes</button>
-                </div>
-
-                <div class="card">
-                    <h3>🔗 Social Links</h3>
-                    <div class="input-group">
-                        <label for="githubLink">GitHub URL</label>
-                        <input type="url" id="githubLink" placeholder="https://github.com/username">
-                    </div>
-                    <div class="input-group">
-                        <label for="discordLink">Discord URL</label>
-                        <input type="url" id="discordLink" placeholder="https://discord.gg/invite">
-                    </div>
-                    <div class="input-group">
-                        <label for="youtubeLink">YouTube URL</label>
-                        <input type="url" id="youtubeLink" placeholder="https://youtube.com/@username">
-                    </div>
-                    <div class="input-group">
-                        <label for="tiktokLink">TikTok URL</label>
-                        <input type="url" id="tiktokLink" placeholder="https://tiktok.com/@username">
-                    </div>
-                    <button class="btn" onclick="saveSocialLinks()">Update Links</button>
-                </div>
-
-                <div class="card">
-                    <h3>⚙️ Advanced Settings</h3>
-                    <div class="input-group">
-                        <label for="backgroundTheme">Background Theme</label>
-                        <select id="backgroundTheme">
-                            <option value="anime">Anime</option>
-                            <option value="hacker">Hacker</option>
-                            <option value="car">Car</option>
-                            <option value="rain">Rain</option>
-                            <option value="default">Default</option>
-                        </select>
-                    </div>
-                    <div class="input-group">
-                        <label>
-                            <input type="checkbox" id="enableMusic"> Enable Background Music
-                        </label>
-                    </div>
-                    <div class="input-group">
-                        <label>
-                            <input type="checkbox" id="enableAnimations"> Enable Animations
-                        </label>
-                    </div>
-                    <button class="btn" onclick="saveAdvancedSettings()">Apply Settings</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Deployment Tab -->
-        <div id="deployment" class="tab-content">
-            <div class="dashboard">
-                <div class="card">
-                    <h3>🚀 Netlify Deployment</h3>
-                    <div class="input-group">
-                        <label for="netlifyApiKey">Netlify API Key</label>
-                        <input type="password" id="netlifyApiKey" placeholder="Enter your Netlify API key">
-                        <small>Get this from <a href="https://app.netlify.com/user/applications#personal-access-tokens" target="_blank">Netlify Dashboard</a></small>
-                    </div>
-                    <div class="input-group">
-                        <label for="siteId">Site ID</label>
-                        <input type="text" id="siteId" placeholder="Your Netlify site ID">
-                    </div>
-                    <button class="btn btn-success" onclick="deployToNetlify()">Deploy to Netlify</button>
-                    <button class="btn" onclick="testConnection()">Test Connection</button>
-                </div>
-
-                <div class="card">
-                    <h3>📝 Deployment Log</h3>
-                    <div id="deploymentLog" class="logs">
-                        Ready to deploy... 🚀
-                    </div>
-                    <button class="btn" onclick="clearLog()">Clear Log</button>
-                </div>
-
-                <div class="card">
-                    <h3>🌐 Domain Settings</h3>
-                    <div class="input-group">
-                        <label for="customDomain">Custom Domain</label>
-                        <input type="text" id="customDomain" placeholder="yourdomain.com">
-                    </div>
-                    <div class="input-group">
-                        <label>
-                            <input type="checkbox" id="enableSsl"> Enable SSL Certificate
-                        </label>
-                    </div>
-                    <button class="btn" onclick="updateDomain()">Update Domain</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Analytics Tab -->
-        <div id="analytics" class="tab-content">
-            <div class="dashboard">
-                <div class="card">
-                    <h3>📈 Site Analytics</h3>
-                    <p><strong>Today's Visitors:</strong> <span id="todayVisitors">Loading...</span></p>
-                    <p><strong>Total Page Views:</strong> <span id="totalViews">Loading...</span></p>
-                    <p><strong>Bounce Rate:</strong> <span id="bounceRate">Loading...</span></p>
-                    <button class="btn" onclick="refreshAnalytics()">Refresh Data</button>
-                </div>
-
-                <div class="card">
-                    <h3>🌍 Visitor Locations</h3>
-                    <div id="visitorMap" style="height: 200px; background: #f3f4f6; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #6b7280;">
-                        📍 Visitor map will appear here
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h3>📱 Device Statistics</h3>
-                    <div id="deviceStats">
-                        <p><strong>Desktop:</strong> <span id="desktopPercent">0%</span></p>
-                        <p><strong>Mobile:</strong> <span id="mobilePercent">0%</span></p>
-                        <p><strong>Tablet:</strong> <span id="tabletPercent">0%</span></p>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h3>⚡ Performance Metrics</h3>
-                    <p><strong>Load Time:</strong> <span id="avgLoadTime">0ms</span></p>
-                    <p><strong>Lighthouse Score:</strong> <span id="lighthouseScore">0/100</span></p>
-                    <button class="btn" onclick="runPerformanceTest()">Run Performance Test</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Tab switching functionality
-        function switchTab(tabName) {
-            // Hide all tab contents
-            const tabContents = document.querySelectorAll('.tab-content');
-            tabContents.forEach(content => content.classList.remove('active'));
-            
-            // Remove active class from all tabs
-            const tabs = document.querySelectorAll('.tab');
-            tabs.forEach(tab => tab.classList.remove('active'));
-            
-            // Show selected tab content
-            document.getElementById(tabName).classList.add('active');
-            
-            // Add active class to clicked tab
-            event.target.classList.add('active');
+        // Set your admin password here
+        const ADMIN_PASSWORD = "admin123"; // Change this to your desired password
+        
+        // Check if user is already logged in
+        if (sessionStorage.getItem('adminLoggedIn') === 'true') {
+            showAdminPanel();
         }
-
-        // File upload handling
-        function handleFileUpload(type, files) {
-            const fileList = document.getElementById(type + 'List');
-            fileList.innerHTML = '';
+        
+        function checkPassword() {
+            const inputPassword = document.getElementById('passwordInput').value;
+            const errorDiv = document.getElementById('errorMessage');
             
-            Array.from(files).forEach(file => {
-                const fileItem = document.createElement('div');
-                fileItem.className = 'asset-item';
-                fileItem.innerHTML = `
-                    <span>${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)</span>
-                    <button class="btn btn-danger" onclick="removeFile(this)">Remove</button>
-                `;
-                fileList.appendChild(fileItem);
-            });
-            
-            logMessage(`Uploaded ${files.length} ${type} file(s)`);
-            updateAssetCount();
-        }
-
-        function removeFile(button) {
-            button.parentElement.remove();
-            updateAssetCount();
-        }
-
-        function updateAssetCount() {
-            const musicCount = document.getElementById('musicList').children.length;
-            const videoCount = document.getElementById('videoList').children.length;
-            const imageCount = document.getElementById('imageList').children.length;
-            const fontCount = document.getElementById('fontList').children.length;
-            
-            document.getElementById('assetCount').textContent = musicCount + videoCount + imageCount + fontCount;
-        }
-
-        // Site management functions
-        function checkSiteStatus() {
-            document.getElementById('siteStatus').innerHTML = '🔄 Checking site status...';
-            document.getElementById('siteStatus').className = 'status warning';
-            
-            setTimeout(() => {
-                document.getElementById('siteStatus').innerHTML = '✅ Site is online and running';
-                document.getElementById('siteStatus').className = 'status success';
-                document.getElementById('lastDeploy').textContent = new Date().toLocaleString();
-            }, 2000);
-        }
-
-        function runSpeedTest() {
-            document.getElementById('loadSpeed').textContent = 'Testing...';
-            
-            setTimeout(() => {
-                document.getElementById('loadSpeed').textContent = Math.floor(Math.random() * 1000 + 500) + 'ms';
-                document.getElementById('siteSize').textContent = (Math.random() * 5 + 1).toFixed(1) + ' MB';
-            }, 3000);
-        }
-
-        function triggerDeploy() {
-            logMessage('🚀 Starting deployment...');
-            logMessage('📦 Building site assets...');
-            
-            setTimeout(() => {
-                logMessage('✅ Deployment successful!');
-                checkSiteStatus();
-            }, 3000);
-        }
-
-        function clearCache() {
-            logMessage('🧹 Clearing Netlify cache...');
-            setTimeout(() => {
-                logMessage('✅ Cache cleared successfully');
-            }, 1500);
-        }
-
-        // Customization functions
-        function saveCustomization() {
-            const title = document.getElementById('siteTitle').value;
-            const description = document.getElementById('siteDescription').value;
-            const color = document.getElementById('primaryColor').value;
-            
-            logMessage(`💾 Saved customization: ${title}`);
-            alert('Customization saved! Deploy your site to see changes.');
-        }
-
-        function saveSocialLinks() {
-            logMessage('🔗 Social links updated');
-            alert('Social links saved! Deploy your site to see changes.');
-        }
-
-        function saveAdvancedSettings() {
-            const theme = document.getElementById('backgroundTheme').value;
-            const music = document.getElementById('enableMusic').checked;
-            const animations = document.getElementById('enableAnimations').checked;
-            
-            logMessage(`⚙️ Settings saved: Theme=${theme}, Music=${music}, Animations=${animations}`);
-            alert('Advanced settings saved! Deploy your site to see changes.');
-        }
-
-        // Deployment functions
-        function testConnection() {
-            const apiKey = document.getElementById('netlifyApiKey').value;
-            const siteId = document.getElementById('siteId').value;
-            
-            if (!apiKey || !siteId) {
-                alert('Please enter both API key and Site ID');
-                return;
+            if (inputPassword === ADMIN_PASSWORD) {
+                // Correct password
+                sessionStorage.setItem('adminLoggedIn', 'true');
+                showAdminPanel();
+            } else {
+                // Wrong password
+                errorDiv.textContent = "❌ Incorrect password. Try again.";
+                document.getElementById('passwordInput').value = '';
+                document.getElementById('passwordInput').focus();
             }
-            
-            logMessage('🔍 Testing Netlify connection...');
-            setTimeout(() => {
-                logMessage('✅ Connection successful!');
-            }, 2000);
         }
-
-        function deployToNetlify() {
-            const apiKey = document.getElementById('netlifyApiKey').value;
-            const siteId = document.getElementById('siteId').value;
-            
-            if (!apiKey || !siteId) {
-                alert('Please enter both API key and Site ID');
-                return;
+        
+        function showAdminPanel() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('adminContent').style.display = 'block';
+        }
+        
+        function logout() {
+            sessionStorage.removeItem('adminLoggedIn');
+            location.reload();
+        }
+        
+        // Allow Enter key to submit password
+        document.getElementById('passwordInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
             }
-            
-            logMessage('🚀 Deploying to Netlify...');
-            logMessage('📤 Uploading files...');
-            logMessage('🔧 Processing assets...');
-            
-            setTimeout(() => {
-                logMessage('✅ Deployment complete!');
-                checkSiteStatus();
-            }, 5000);
-        }
-
-        function updateDomain() {
-            const domain = document.getElementById('customDomain').value;
-            const ssl = document.getElementById('enableSsl').checked;
-            
-            logMessage(`🌐 Updating domain: ${domain} (SSL: ${ssl})`);
-            setTimeout(() => {
-                logMessage('✅ Domain settings updated');
-            }, 2000);
-        }
-
-        // Analytics functions
-        function refreshAnalytics() {
-            document.getElementById('todayVisitors').textContent = Math.floor(Math.random() * 100 + 10);
-            document.getElementById('totalViews').textContent = Math.floor(Math.random() * 5000 + 500);
-            document.getElementById('bounceRate').textContent = Math.floor(Math.random() * 30 + 20) + '%';
-            
-            document.getElementById('desktopPercent').textContent = Math.floor(Math.random() * 40 + 40) + '%';
-            document.getElementById('mobilePercent').textContent = Math.floor(Math.random() * 30 + 30) + '%';
-            document.getElementById('tabletPercent').textContent = Math.floor(Math.random() * 20 + 10) + '%';
-            
-            logMessage('📊 Analytics data refreshed');
-        }
-
-        function runPerformanceTest() {
-            document.getElementById('avgLoadTime').textContent = 'Testing...';
-            document.getElementById('lighthouseScore').textContent = 'Testing...';
-            
-            setTimeout(() => {
-                document.getElementById('avgLoadTime').textContent = Math.floor(Math.random() * 1000 + 200) + 'ms';
-                document.getElementById('lighthouseScore').textContent = Math.floor(Math.random() * 20 + 80) + '/100';
-            }, 3000);
-        }
-
-        // Utility functions
-        function logMessage(message) {
-            const log = document.getElementById('deploymentLog');
-            const timestamp = new Date().toLocaleTimeString();
-            log.innerHTML += `\n[${timestamp}] ${message}`;
-            log.scrollTop = log.scrollHeight;
-        }
-
-        function clearLog() {
-            document.getElementById('deploymentLog').innerHTML = 'Log cleared... 🧹';
-        }
-
-        // Initialize the admin panel
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set default values
-            document.getElementById('siteDomain').textContent = 'your-gunslol-site.netlify.app';
-            document.getElementById('visitSiteBtn').href = 'https://your-gunslol-site.netlify.app';
-            
-            // Check initial status
-            checkSiteStatus();
-            runSpeedTest();
-            refreshAnalytics();
-            
-            // Enable checkboxes by default
-            document.getElementById('enableMusic').checked = true;
-            document.getElementById('enableAnimations').checked = true;
-            document.getElementById('enableSsl').checked = true;
-            
-            logMessage('🎯 Admin panel initialized');
-            logMessage('📋 Ready to manage your gunslol site!');
         });
+        
+        // Focus on password input when page loads
+        document.getElementById('passwordInput').focus();
     </script>
 </body>
 </html>
