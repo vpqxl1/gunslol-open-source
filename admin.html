@@ -97,12 +97,28 @@
                 <!-- Functional Admin Panel -->
                 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px;">
                     
-                    <!-- Site Settings -->
+                    <!-- Text Content Editor -->
                     <div style="background: #f9fafb; padding: 20px; border-radius: 10px; border: 1px solid #e5e7eb;">
-                        <h3 style="color: #4f46e5;">🌐 Site Settings</h3>
+                        <h3 style="color: #4f46e5;">✏️ Edit Site Text</h3>
                         <div style="margin-bottom: 15px;">
-                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Site Title:</label>
+                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Site Title/Name:</label>
                             <input type="text" id="siteTitle" placeholder="Your Name" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Bio/Description:</label>
+                            <textarea id="siteBio" placeholder="Tell people about yourself..." rows="4" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; resize: vertical; font-family: inherit;"></textarea>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Age:</label>
+                            <input type="text" id="userAge" placeholder="18" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Location:</label>
+                            <input type="text" id="userLocation" placeholder="City, Country" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Status/Mood:</label>
+                            <input type="text" id="userStatus" placeholder="What's your current vibe?" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
                         </div>
                         <div style="margin-bottom: 15px;">
                             <label style="display: block; margin-bottom: 5px; font-weight: bold;">Background Theme:</label>
@@ -114,7 +130,34 @@
                                 <option value="rain">Rain</option>
                             </select>
                         </div>
-                        <button onclick="updateSiteSettings()" style="background: #4f46e5; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%;">Save Settings</button>
+                        <button onclick="updateSiteContent()" style="background: #4f46e5; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%;">Save All Changes</button>
+                    </div>
+                    
+                    <!-- Advanced Text Editor -->
+                    <div style="background: #f9fafb; padding: 20px; border-radius: 10px; border: 1px solid #e5e7eb;">
+                        <h3 style="color: #4f46e5;">📝 Advanced Text Editor</h3>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Custom Welcome Message:</label>
+                            <textarea id="welcomeMessage" placeholder="Welcome to my site!" rows="2" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; resize: vertical; font-family: inherit;"></textarea>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">About Me Section:</label>
+                            <textarea id="aboutSection" placeholder="More detailed information about yourself..." rows="5" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; resize: vertical; font-family: inherit;"></textarea>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Skills/Interests:</label>
+                            <input type="text" id="userSkills" placeholder="Programming, Music, Art, Gaming" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                            <small style="color: #666;">Separate with commas</small>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Favorite Quote:</label>
+                            <textarea id="favoriteQuote" placeholder="Your favorite quote or motto..." rows="2" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; resize: vertical; font-family: inherit;"></textarea>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Footer Text:</label>
+                            <input type="text" id="footerText" placeholder="© 2025 Your Name" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        </div>
+                        <button onclick="updateAdvancedContent()" style="background: #7c3aed; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%;">Save Advanced Text</button>
                     </div>
                     
                     <!-- File Upload -->
@@ -237,21 +280,60 @@
             log.scrollTop = log.scrollHeight;
         }
         
-        function updateSiteSettings() {
+        function updateSiteContent() {
             const title = document.getElementById('siteTitle').value;
+            const bio = document.getElementById('siteBio').value;
+            const age = document.getElementById('userAge').value;
+            const location = document.getElementById('userLocation').value;
+            const status = document.getElementById('userStatus').value;
             const theme = document.getElementById('bgTheme').value;
             
-            if (title) {
-                localStorage.setItem('gunslol_title', title);
-                logActivity(`✅ Site title updated: ${title}`);
-            }
+            // Save all content to localStorage
+            if (title) localStorage.setItem('gunslol_title', title);
+            if (bio) localStorage.setItem('gunslol_bio', bio);
+            if (age) localStorage.setItem('gunslol_age', age);
+            if (location) localStorage.setItem('gunslol_location', location);
+            if (status) localStorage.setItem('gunslol_status', status);
+            if (theme) localStorage.setItem('gunslol_theme', theme);
             
-            if (theme) {
-                localStorage.setItem('gunslol_theme', theme);
-                logActivity(`🎨 Theme changed to: ${theme}`);
-            }
+            logActivity(`✅ Site content updated`);
+            if (title) logActivity(`📝 Title: ${title}`);
+            if (bio) logActivity(`📝 Bio updated (${bio.length} chars)`);
+            if (age) logActivity(`📝 Age: ${age}`);
+            if (location) logActivity(`📝 Location: ${location}`);
+            if (status) logActivity(`📝 Status: ${status}`);
+            if (theme) logActivity(`🎨 Theme: ${theme}`);
             
-            alert('Settings saved! These will apply when you refresh your main site.');
+            alert('All changes saved! Refresh your main site to see the updates.');
+        }
+        
+        function updateAdvancedContent() {
+            const welcome = document.getElementById('welcomeMessage').value;
+            const about = document.getElementById('aboutSection').value;
+            const skills = document.getElementById('userSkills').value;
+            const quote = document.getElementById('favoriteQuote').value;
+            const footer = document.getElementById('footerText').value;
+            
+            // Save advanced content
+            if (welcome) localStorage.setItem('gunslol_welcome', welcome);
+            if (about) localStorage.setItem('gunslol_about', about);
+            if (skills) localStorage.setItem('gunslol_skills', skills);
+            if (quote) localStorage.setItem('gunslol_quote', quote);
+            if (footer) localStorage.setItem('gunslol_footer', footer);
+            
+            logActivity(`✅ Advanced content updated`);
+            if (welcome) logActivity(`📝 Welcome message updated`);
+            if (about) logActivity(`📝 About section updated (${about.length} chars)`);
+            if (skills) logActivity(`📝 Skills: ${skills}`);
+            if (quote) logActivity(`📝 Quote updated`);
+            if (footer) logActivity(`📝 Footer: ${footer}`);
+            
+            alert('Advanced content saved! Refresh your main site to see the changes.');
+        }
+        
+        function updateSiteSettings() {
+            // This function is now handled by updateSiteContent
+            updateSiteContent();
         }
         
         function updateSocialLinks() {
@@ -367,13 +449,40 @@
         
         // Load saved settings when admin panel loads
         function loadSavedSettings() {
+            // Load basic content
             const savedTitle = localStorage.getItem('gunslol_title');
+            const savedBio = localStorage.getItem('gunslol_bio');
+            const savedAge = localStorage.getItem('gunslol_age');
+            const savedLocation = localStorage.getItem('gunslol_location');
+            const savedStatus = localStorage.getItem('gunslol_status');
             const savedTheme = localStorage.getItem('gunslol_theme');
+            
+            // Load advanced content
+            const savedWelcome = localStorage.getItem('gunslol_welcome');
+            const savedAbout = localStorage.getItem('gunslol_about');
+            const savedSkills = localStorage.getItem('gunslol_skills');
+            const savedQuote = localStorage.getItem('gunslol_quote');
+            const savedFooter = localStorage.getItem('gunslol_footer');
+            
+            // Load social links
             const savedSocial = JSON.parse(localStorage.getItem('gunslol_social') || '{}');
             
+            // Populate basic fields
             if (savedTitle) document.getElementById('siteTitle').value = savedTitle;
+            if (savedBio) document.getElementById('siteBio').value = savedBio;
+            if (savedAge) document.getElementById('userAge').value = savedAge;
+            if (savedLocation) document.getElementById('userLocation').value = savedLocation;
+            if (savedStatus) document.getElementById('userStatus').value = savedStatus;
             if (savedTheme) document.getElementById('bgTheme').value = savedTheme;
             
+            // Populate advanced fields
+            if (savedWelcome) document.getElementById('welcomeMessage').value = savedWelcome;
+            if (savedAbout) document.getElementById('aboutSection').value = savedAbout;
+            if (savedSkills) document.getElementById('userSkills').value = savedSkills;
+            if (savedQuote) document.getElementById('favoriteQuote').value = savedQuote;
+            if (savedFooter) document.getElementById('footerText').value = savedFooter;
+            
+            // Populate social fields
             if (savedSocial.github) document.getElementById('githubLink').value = savedSocial.github;
             if (savedSocial.discord) document.getElementById('discordLink').value = savedSocial.discord;
             if (savedSocial.youtube) document.getElementById('youtubeLink').value = savedSocial.youtube;
