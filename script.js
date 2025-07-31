@@ -669,3 +669,200 @@ document.addEventListener('DOMContentLoaded', () => {
 
   typeWriterStart();
 });
+
+
+// Add this code to your main script.js file
+
+// Load admin panel settings when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    loadAdminSettings();
+});
+
+function loadAdminSettings() {
+    // Load saved title
+    const savedTitle = localStorage.getItem('gunslol_title');
+    if (savedTitle) {
+        document.title = savedTitle;
+        // Also update any title elements on the page
+        const titleElements = document.querySelectorAll('.site-title, h1.title');
+        titleElements.forEach(el => el.textContent = savedTitle);
+    }
+    
+    // Load saved theme
+    const savedTheme = localStorage.getItem('gunslol_theme');
+    if (savedTheme && savedTheme !== 'default') {
+        applyTheme(savedTheme);
+    }
+    
+    // Load saved social links
+    const savedSocial = JSON.parse(localStorage.getItem('gunslol_social') || '{}');
+    updateSocialLinks(savedSocial);
+}
+
+function applyTheme(themeName) {
+    console.log('Applying theme:', themeName);
+    
+    // Remove any existing theme classes
+    document.body.classList.remove('theme-anime', 'theme-hacker', 'theme-car', 'theme-rain');
+    
+    // Add new theme class
+    document.body.classList.add(`theme-${themeName}`);
+    
+    // Apply theme-specific changes
+    switch(themeName) {
+        case 'anime':
+            setBackground('assets/anime_background.mp4', 'assets/anime_music.mp3');
+            setColorScheme('#ff6b9d', '#ffc3e1');
+            break;
+            
+        case 'hacker':
+            setBackground('assets/hacker_background.mp4', 'assets/hacker_music.mp3');
+            setColorScheme('#00ff00', '#001100');
+            addHackerEffects();
+            break;
+            
+        case 'car':
+            setBackground('assets/car_background.mp4', 'assets/car_music.mp3');
+            setColorScheme('#ff4444', '#330000');
+            break;
+            
+        case 'rain':
+            setBackground('assets/rain_background.mov', 'assets/rain_music.mp3');
+            setColorScheme('#4a90e2', '#1a3a5c');
+            addRainEffects();
+            break;
+            
+        default:
+            setBackground('assets/background.mp4', 'assets/background_music.mp3');
+            setColorScheme('#ffffff', '#000000');
+    }
+}
+
+function setBackground(videoPath, musicPath) {
+    // Update background video
+    const bgVideo = document.querySelector('video, .bg-video');
+    if (bgVideo && videoPath) {
+        bgVideo.src = videoPath;
+        bgVideo.load(); // Reload the video with new source
+    }
+    
+    // Update background music
+    const bgMusic = document.querySelector('audio, .bg-music');
+    if (bgMusic && musicPath) {
+        bgMusic.src = musicPath;
+        bgMusic.load(); // Reload the audio with new source
+    }
+}
+
+function setColorScheme(primaryColor, secondaryColor) {
+    // Update CSS custom properties if you're using them
+    document.documentElement.style.setProperty('--primary-color', primaryColor);
+    document.documentElement.style.setProperty('--secondary-color', secondaryColor);
+    
+    // Or directly update specific elements
+    const textElements = document.querySelectorAll('.text-primary');
+    textElements.forEach(el => el.style.color = primaryColor);
+}
+
+function addHackerEffects() {
+    // Add hacker-style effects
+    document.body.style.fontFamily = 'monospace';
+    
+    // Add overlay if it exists
+    const overlay = document.querySelector('.overlay');
+    if (overlay) {
+        overlay.style.background = 'rgba(0, 255, 0, 0.1)';
+    }
+    
+    // Matrix-style text effect (optional)
+    addMatrixEffect();
+}
+
+function addRainEffects() {
+    // Add rain-style effects
+    const overlay = document.querySelector('.overlay');
+    if (overlay) {
+        overlay.style.background = 'rgba(74, 144, 226, 0.2)';
+    }
+}
+
+function addMatrixEffect() {
+    // Simple matrix-style falling text effect
+    const canvas = document.createElement('canvas');
+    canvas.style.position = 'fixed';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.style.pointerEvents = 'none';
+    canvas.style.zIndex = '1';
+    canvas.style.opacity = '0.3';
+    
+    document.body.appendChild(canvas);
+    
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    
+    const matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$%^&*()*&^%+-/~{[|`]}";
+    const drops = [];
+    
+    for(let x = 0; x < canvas.width / 10; x++) {
+        drops[x] = 1;
+    }
+    
+    function drawMatrix() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.04)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.fillStyle = '#0F0';
+        ctx.font = '15px monospace';
+        
+        for(let i = 0; i < drops.length; i++) {
+            const text = matrix[Math.floor(Math.random() * matrix.length)];
+            ctx.fillText(text, i * 10, drops[i] * 10);
+            
+            if(drops[i] * 10 > canvas.height && Math.random() > 0.975) {
+                drops[i] = 0;
+            }
+            drops[i]++;
+        }
+    }
+    
+    setInterval(drawMatrix, 35);
+}
+
+function updateSocialLinks(socialData) {
+    // Update social media links if they exist in your HTML
+    if (socialData.github) {
+        const githubLink = document.querySelector('a[href*="github"], .github-link');
+        if (githubLink) githubLink.href = socialData.github;
+    }
+    
+    if (socialData.discord) {
+        const discordLink = document.querySelector('a[href*="discord"], .discord-link');
+        if (discordLink) discordLink.href = socialData.discord;
+    }
+    
+    if (socialData.youtube) {
+        const youtubeLink = document.querySelector('a[href*="youtube"], .youtube-link');
+        if (youtubeLink) youtubeLink.href = socialData.youtube;
+    }
+    
+    if (socialData.tiktok) {
+        const tiktokLink = document.querySelector('a[href*="tiktok"], .tiktok-link');
+        if (tiktokLink) tiktokLink.href = socialData.tiktok;
+    }
+}
+
+// Force theme refresh function (call this if themes aren't applying)
+function refreshTheme() {
+    const currentTheme = localStorage.getItem('gunslol_theme');
+    if (currentTheme) {
+        applyTheme(currentTheme);
+        console.log('Theme refreshed:', currentTheme);
+    }
+}
+
+// Add this to your existing code or call it manually
+// refreshTheme();
