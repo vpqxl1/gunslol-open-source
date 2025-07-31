@@ -94,25 +94,91 @@
                     <button onclick="logout()" style="background: rgba(255,255,255,0.2); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px;">Logout</button>
                 </div>
                 
-                <!-- Your existing admin panel content goes here -->
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                <!-- Functional Admin Panel -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px;">
+                    
+                    <!-- Site Settings -->
                     <div style="background: #f9fafb; padding: 20px; border-radius: 10px; border: 1px solid #e5e7eb;">
-                        <h3 style="color: #4f46e5;">🌐 Site Management</h3>
-                        <p>Manage your gunslol site settings and configuration.</p>
-                        <button style="background: #4f46e5; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Manage Site</button>
+                        <h3 style="color: #4f46e5;">🌐 Site Settings</h3>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Site Title:</label>
+                            <input type="text" id="siteTitle" placeholder="Your Name" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Background Theme:</label>
+                            <select id="bgTheme" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                                <option value="default">Default</option>
+                                <option value="anime">Anime</option>
+                                <option value="hacker">Hacker</option>
+                                <option value="car">Car</option>
+                                <option value="rain">Rain</option>
+                            </select>
+                        </div>
+                        <button onclick="updateSiteSettings()" style="background: #4f46e5; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%;">Save Settings</button>
                     </div>
                     
+                    <!-- File Upload -->
                     <div style="background: #f9fafb; padding: 20px; border-radius: 10px; border: 1px solid #e5e7eb;">
-                        <h3 style="color: #4f46e5;">📁 File Upload</h3>
-                        <p>Upload new assets like music, videos, and images.</p>
-                        <button style="background: #10b981; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Upload Files</button>
+                        <h3 style="color: #4f46e5;">📁 Upload Assets</h3>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Music Files (.mp3):</label>
+                            <input type="file" id="musicUpload" accept=".mp3" multiple style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Video Files (.mp4):</label>
+                            <input type="file" id="videoUpload" accept=".mp4,.mov" multiple style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Images (.png, .gif):</label>
+                            <input type="file" id="imageUpload" accept=".png,.gif,.jpg" multiple style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        </div>
+                        <button onclick="uploadFiles()" style="background: #10b981; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%;">Process Files</button>
+                        <div id="uploadStatus" style="margin-top: 10px; padding: 10px; display: none; border-radius: 4px;"></div>
                     </div>
                     
+                    <!-- Social Links -->
                     <div style="background: #f9fafb; padding: 20px; border-radius: 10px; border: 1px solid #e5e7eb;">
-                        <h3 style="color: #4f46e5;">🚀 Deploy</h3>
-                        <p>Deploy your changes to the live site.</p>
-                        <button style="background: #ef4444; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">Deploy Now</button>
+                        <h3 style="color: #4f46e5;">🔗 Social Links</h3>
+                        <div style="margin-bottom: 10px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">GitHub:</label>
+                            <input type="url" id="githubLink" placeholder="https://github.com/username" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        </div>
+                        <div style="margin-bottom: 10px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Discord:</label>
+                            <input type="url" id="discordLink" placeholder="https://discord.gg/invite" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        </div>
+                        <div style="margin-bottom: 10px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">YouTube:</label>
+                            <input type="url" id="youtubeLink" placeholder="https://youtube.com/@username" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <label style="display: block; margin-bottom: 5px; font-weight: bold;">TikTok:</label>
+                            <input type="url" id="tiktokLink" placeholder="https://tiktok.com/@username" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px;">
+                        </div>
+                        <button onclick="updateSocialLinks()" style="background: #7c3aed; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%;">Update Links</button>
                     </div>
+                    
+                    <!-- Site Tools -->
+                    <div style="background: #f9fafb; padding: 20px; border-radius: 10px; border: 1px solid #e5e7eb;">
+                        <h3 style="color: #4f46e5;">🔧 Site Tools</h3>
+                        <div style="margin-bottom: 15px;">
+                            <button onclick="previewSite()" style="background: #06b6d4; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%; margin-bottom: 10px;">Preview Main Site</button>
+                            <button onclick="downloadConfig()" style="background: #8b5cf6; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%; margin-bottom: 10px;">Download Config</button>
+                            <button onclick="clearCache()" style="background: #f59e0b; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%; margin-bottom: 10px;">Clear Browser Cache</button>
+                            <button onclick="exportData()" style="background: #10b981; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%;">Export Site Data</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Activity Log -->
+                    <div style="background: #f9fafb; padding: 20px; border-radius: 10px; border: 1px solid #e5e7eb;">
+                        <h3 style="color: #4f46e5;">📋 Activity Log</h3>
+                        <div id="activityLog" style="background: #1f2937; color: #f3f4f6; padding: 15px; border-radius: 8px; font-family: monospace; font-size: 12px; max-height: 200px; overflow-y: auto; margin-bottom: 10px;">
+                            [INFO] Admin panel loaded successfully<br>
+                            [INFO] Ready for site management
+                        </div>
+                        <button onclick="clearLog()" style="background: #6b7280; color: white; border: none; padding: 8px 16px; border-radius: 5px; cursor: pointer; width: 100%;">Clear Log</button>
+                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -162,6 +228,164 @@
         
         // Focus on password input when page loads
         document.getElementById('passwordInput').focus();
+        
+        // Admin Panel Functions
+        function logActivity(message) {
+            const log = document.getElementById('activityLog');
+            const timestamp = new Date().toLocaleTimeString();
+            log.innerHTML += `<br>[${timestamp}] ${message}`;
+            log.scrollTop = log.scrollHeight;
+        }
+        
+        function updateSiteSettings() {
+            const title = document.getElementById('siteTitle').value;
+            const theme = document.getElementById('bgTheme').value;
+            
+            if (title) {
+                localStorage.setItem('gunslol_title', title);
+                logActivity(`✅ Site title updated: ${title}`);
+            }
+            
+            if (theme) {
+                localStorage.setItem('gunslol_theme', theme);
+                logActivity(`🎨 Theme changed to: ${theme}`);
+            }
+            
+            alert('Settings saved! These will apply when you refresh your main site.');
+        }
+        
+        function updateSocialLinks() {
+            const github = document.getElementById('githubLink').value;
+            const discord = document.getElementById('discordLink').value;
+            const youtube = document.getElementById('youtubeLink').value;
+            const tiktok = document.getElementById('tiktokLink').value;
+            
+            const links = { github, discord, youtube, tiktok };
+            localStorage.setItem('gunslol_social', JSON.stringify(links));
+            
+            logActivity('🔗 Social links updated');
+            alert('Social links saved!');
+        }
+        
+        function uploadFiles() {
+            const musicFiles = document.getElementById('musicUpload').files;
+            const videoFiles = document.getElementById('videoUpload').files;
+            const imageFiles = document.getElementById('imageUpload').files;
+            
+            const statusDiv = document.getElementById('uploadStatus');
+            let totalFiles = musicFiles.length + videoFiles.length + imageFiles.length;
+            
+            if (totalFiles === 0) {
+                alert('Please select files to upload first!');
+                return;
+            }
+            
+            statusDiv.style.display = 'block';
+            statusDiv.style.background = '#dbeafe';
+            statusDiv.style.color = '#1e40af';
+            statusDiv.innerHTML = `📤 Processing ${totalFiles} files...`;
+            
+            // Simulate file processing
+            setTimeout(() => {
+                statusDiv.style.background = '#d1fae5';
+                statusDiv.style.color = '#065f46';
+                statusDiv.innerHTML = `✅ ${totalFiles} files processed successfully!<br><small>Note: In a real setup, these would upload to your assets folder.</small>`;
+                
+                logActivity(`📁 Processed ${totalFiles} files`);
+                if (musicFiles.length > 0) logActivity(`🎵 ${musicFiles.length} music files`);
+                if (videoFiles.length > 0) logActivity(`🎬 ${videoFiles.length} video files`);
+                if (imageFiles.length > 0) logActivity(`🖼️ ${imageFiles.length} image files`);
+            }, 2000);
+        }
+        
+        function previewSite() {
+            window.open('/', '_blank');
+            logActivity('👁️ Opened main site preview');
+        }
+        
+        function downloadConfig() {
+            const config = {
+                title: localStorage.getItem('gunslol_title') || 'Gunslol Site',
+                theme: localStorage.getItem('gunslol_theme') || 'default',
+                social: JSON.parse(localStorage.getItem('gunslol_social') || '{}'),
+                timestamp: new Date().toISOString()
+            };
+            
+            const blob = new Blob([JSON.stringify(config, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'gunslol-config.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            logActivity('💾 Configuration downloaded');
+        }
+        
+        function clearCache() {
+            if (confirm('This will clear your browser cache. Continue?')) {
+                // Clear localStorage
+                const adminStatus = sessionStorage.getItem('adminLoggedIn');
+                localStorage.clear();
+                
+                // Keep admin session
+                sessionStorage.setItem('adminLoggedIn', adminStatus);
+                
+                logActivity('🧹 Browser cache cleared');
+                alert('Cache cleared! Your main site will reload with default settings.');
+            }
+        }
+        
+        function exportData() {
+            const data = {
+                settings: {
+                    title: localStorage.getItem('gunslol_title') || '',
+                    theme: localStorage.getItem('gunslol_theme') || 'default'
+                },
+                social: JSON.parse(localStorage.getItem('gunslol_social') || '{}'),
+                exported: new Date().toISOString()
+            };
+            
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'gunslol-export.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            logActivity('📤 Site data exported');
+        }
+        
+        function clearLog() {
+            document.getElementById('activityLog').innerHTML = '[INFO] Log cleared<br>[INFO] Admin panel ready';
+        }
+        
+        // Load saved settings when admin panel loads
+        function loadSavedSettings() {
+            const savedTitle = localStorage.getItem('gunslol_title');
+            const savedTheme = localStorage.getItem('gunslol_theme');
+            const savedSocial = JSON.parse(localStorage.getItem('gunslol_social') || '{}');
+            
+            if (savedTitle) document.getElementById('siteTitle').value = savedTitle;
+            if (savedTheme) document.getElementById('bgTheme').value = savedTheme;
+            
+            if (savedSocial.github) document.getElementById('githubLink').value = savedSocial.github;
+            if (savedSocial.discord) document.getElementById('discordLink').value = savedSocial.discord;
+            if (savedSocial.youtube) document.getElementById('youtubeLink').value = savedSocial.youtube;
+            if (savedSocial.tiktok) document.getElementById('tiktokLink').value = savedSocial.tiktok;
+        }
+        
+        // Load settings when admin panel is shown
+        const originalShowAdmin = showAdminPanel;
+        showAdminPanel = function() {
+            originalShowAdmin();
+            setTimeout(loadSavedSettings, 100);
+        };
     </script>
 </body>
 </html>
